@@ -1,7 +1,4 @@
 
-// SerialCommuincationDlg.cpp : implementation file
-//
-
 #include "pch.h"
 #include "framework.h"
 #include "SerialCommuincation.h"
@@ -13,22 +10,19 @@
 #endif
 
 
-// CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// Dialog Data
+
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);    
 
-// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -44,9 +38,6 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
-
-
-// CSerialCommuincationDlg dialog
 
 
 
@@ -70,17 +61,14 @@ BEGIN_MESSAGE_MAP(CSerialCommuincationDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CSerialCommuincationDlg message handlers
-
 BOOL CSerialCommuincationDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
-
-	// IDM_ABOUTBOX must be in the system command range.
+	SetWindowText(L"Serial Communication");
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
+	IntiSerialCommunication();
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
 	if (pSysMenu != nullptr)
@@ -96,14 +84,10 @@ BOOL CSerialCommuincationDlg::OnInitDialog()
 		}
 	}
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
+	SetIcon(m_hIcon, TRUE);	
+	SetIcon(m_hIcon, FALSE);
 
-	// TODO: Add extra initialization here
-
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE; 
 }
 
 void CSerialCommuincationDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -119,19 +103,14 @@ void CSerialCommuincationDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
-
 void CSerialCommuincationDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // device context for painting
+		CPaintDC dc(this); 
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Center icon in client rectangle
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -139,7 +118,6 @@ void CSerialCommuincationDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -148,8 +126,7 @@ void CSerialCommuincationDlg::OnPaint()
 	}
 }
 
-// The system calls this function to obtain the cursor to display while the user drags
-//  the minimized window.
+
 HCURSOR CSerialCommuincationDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -159,13 +136,32 @@ HCURSOR CSerialCommuincationDlg::OnQueryDragIcon()
 
 void CSerialCommuincationDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
-	CDialogEx::OnOK();
 }
 
 
 void CSerialCommuincationDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
-	CDialogEx::OnCancel();
+}
+
+void CSerialCommuincationDlg::IntiSerialCommunication()
+{
+	if (!m_bConnected)
+	{
+		CString strPortName = _T("COM1"); // Change this to the appropriate port name
+		DWORD dwBaudRate = CBR_9600; // Change this to the appropriate baud rate
+		BYTE byteSize = 8; // Change this to the appropriate data size
+		BYTE parity = NOPARITY; // Change this to the appropriate parity
+		BYTE stopBits = ONESTOPBIT; // Change this to the appropriate stop bits
+
+		if (m_serialComm.Open(strPortName, dwBaudRate, byteSize, parity, stopBits))
+		{
+			m_serialComm.StartReading();
+			m_bConnected = TRUE;
+			// Connection successful, do additional setup if needed
+		}
+		else
+		{
+			// Connection failed, handle error
+		}
+	}
 }
