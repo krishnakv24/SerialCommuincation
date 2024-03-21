@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2A0EF61F-C91E-4C4C-9449-DEFDAC3BBBD8}|SerialCommuincation.vcxproj|F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincationDlg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2A0EF61F-C91E-4C4C-9449-DEFDAC3BBBD8}|SerialCommuincation.vcxproj|solutionrelative:SerialCommuincationDlg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A0EF61F-C91E-4C4C-9449-DEFDAC3BBBD8}|SerialCommuincation.vcxproj|F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincation.rc||{177559E0-D141-11D0-92DF-00A0C9138C45}|,   b e g i n       % \u0086 )$  \u0022     ",
+      "RelativeMoniker": "D:0:0:{2A0EF61F-C91E-4C4C-9449-DEFDAC3BBBD8}|SerialCommuincation.vcxproj|solutionrelative:SerialCommuincation.rc||{177559E0-D141-11D0-92DF-00A0C9138C45}|,   b e g i n       % \u0086 )$  \u0022     "
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 404,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SerialCommuincationDlg.cpp",
+              "DocumentMoniker": "F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincationDlg.cpp",
+              "RelativeDocumentMoniker": "SerialCommuincationDlg.cpp",
+              "ToolTip": "F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincationDlg.cpp",
+              "RelativeToolTip": "SerialCommuincationDlg.cpp",
+              "ViewState": "AQIAAJcAAAAAAAAAAIAwwKgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-03-21T16:17:31.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SerialCommuincation.rc - IDD_SERIALCOMMUINCATION_DIALOG - Dialog",
+              "DocumentMoniker": "F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincation.rc",
+              "RelativeDocumentMoniker": "SerialCommuincation.rc",
+              "ToolTip": "F:\\ProjectEx\\2024_GIT\\RS232\\SerialCommuincation\\SerialCommuincation\\SerialCommuincation.rc - IDD_SERIALCOMMUINCATION_DIALOG - Dialog",
+              "RelativeToolTip": "SerialCommuincation.rc - IDD_SERIALCOMMUINCATION_DIALOG - Dialog",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2024-03-21T16:17:20.071Z",
+              "EditorCaption": " - IDD_SERIALCOMMUINCATION_DIALOG - Dialog"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
