@@ -66,15 +66,34 @@ BOOL ChwSerialComm::IsOpen() const
     return (m_hComm != INVALID_HANDLE_VALUE);
 }
 
-BOOL ChwSerialComm::Write(const BYTE* pData, DWORD dwDataSize)
+BOOL ChwSerialComm::Write(const CString& strData)
 {
     if (!IsOpen())
         return FALSE;
 
-    DWORD dwWritten;
-    BOOL bResult = WriteFile(m_hComm, pData, dwDataSize, &dwWritten, NULL);
+    CStringA strDataA(strData);
+    LPCSTR pszData = strDataA.GetString();
 
-    return (bResult && dwWritten == dwDataSize);
+    DWORD dwDataSize = strlen(pszData);
+
+    char* pBuffer = new char[dwDataSize + 2]; 
+    if (!pBuffer)
+        return FALSE;
+
+    strcpy_s(pBuffer, dwDataSize + 2, pszData);
+    pBuffer[dwDataSize] = '\n'; 
+    pBuffer[dwDataSize + 1] = '\0'; 
+
+    DWORD dwWritten;
+    BOOL bResult = WriteFile(m_hComm, pBuffer, dwDataSize + 1, &dwWritten, NULL); // +1 to include the newline character
+
+    delete[] pBuffer; 
+
+    if (!bResult || dwWritten != dwDataSize + 1) {
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 void ChwSerialComm::StartReading()

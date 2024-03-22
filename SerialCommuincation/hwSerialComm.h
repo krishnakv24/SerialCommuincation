@@ -14,7 +14,7 @@ public:
     void Close();
     BOOL IsOpen() const;
 
-    BOOL Write(const BYTE* pData, DWORD dwDataSize);
+    BOOL Write(const CString& pszData);
     void StartReading();
     void StopReading();
     void SetUIInterfaceHandle(HWND hwnd) { m_hwdHanlde = hwnd; }

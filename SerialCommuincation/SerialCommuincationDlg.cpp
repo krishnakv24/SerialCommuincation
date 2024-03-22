@@ -235,8 +235,8 @@ void CSerialCommuincationDlg::OnBnClickedBtnSend()
 	{
 		CString strSrndData = L"";
 		m_edtSendText.GetWindowTextW(strSrndData);
-		BYTE* pData = reinterpret_cast<BYTE*>(strSrndData.GetBuffer());
-		m_serialComm.Write(pData, strSrndData.GetLength());
+		m_serialComm.Write(strSrndData);
+		strSrndData.ReleaseBuffer();
 	}
 	else
 	{
