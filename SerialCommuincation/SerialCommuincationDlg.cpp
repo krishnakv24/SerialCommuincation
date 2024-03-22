@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CSerialCommuincationDlg, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CSerialCommuincationDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_BTN_START_COMM, &CSerialCommuincationDlg::OnBnClickedBtnStartComm)
 	ON_BN_CLICKED(IDC_BTN_SEND, &CSerialCommuincationDlg::OnBnClickedBtnSend)
+	ON_MESSAGE(UI_CMD_RECEIVED_SERIAL_DATA, &CSerialCommuincationDlg::OnSerialCommuincationRecv)
 END_MESSAGE_MAP()
 
 
@@ -79,9 +80,11 @@ BOOL CSerialCommuincationDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	SetWindowText(L"Serial Communication");
+	m_serialComm.SetUIInterfaceHandle(GetSafeHwnd());
+
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
-	
+	InitUIControls();
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
 	if (pSysMenu != nullptr)
@@ -156,6 +159,10 @@ void CSerialCommuincationDlg::OnBnClickedCancel()
 {
 
 }
+void CSerialCommuincationDlg::InitUIControls()
+{
+	m_edtReceivedText.SetWindowTextW(L"Test Data");
+}
 
 void CSerialCommuincationDlg::OnClose()
 {
@@ -207,3 +214,33 @@ void CSerialCommuincationDlg::IntiSerialCommunication()
 void CSerialCommuincationDlg::OnBnClickedBtnSend()
 {
 }
+
+LRESULT CSerialCommuincationDlg::OnSerialCommuincationRecv(WPARAM wParam, LPARAM lParam)
+{
+	BYTE* buffer = reinterpret_cast<BYTE*>(lParam);
+	if (buffer != nullptr)
+	{
+		CString str(reinterpret_cast<const char*>(buffer)); // Assuming buffer contains a null-terminated string
+		if (str.GetLength())
+		{
+			m_edtReceivedText.SetWindowTextW(L"");
+			m_edtReceivedText.SetWindowTextW(str + " : Time = " + GetCurrentTimeString());
+		}
+	}
+	return TRUE;
+}
+
+CString CSerialCommuincationDlg::GetCurrentTimeString() 
+{
+	auto currentTime = std::chrono::system_clock::now();
+	std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
+
+	struct tm timeInfo;
+	localtime_s(&timeInfo, &currentTime_t); // Use localtime_s instead of localtime
+
+	std::ostringstream oss;
+	oss << std::put_time(&timeInfo, "%Y-%m-%d %H:%M:%S");
+
+	return CString(oss.str().c_str());
+}
+

@@ -9,5 +9,18 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <vector>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
+#include <afx.h>
+#include <ctime>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
+
+using namespace std;
+
+#define UI_CMD_RECEIVED_SERIAL_DATA   (2020L)
 #endif //PCH_H

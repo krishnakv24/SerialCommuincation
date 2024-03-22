@@ -27,6 +27,8 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 
+	void InitUIControls();
+
 	void OnClose();
 
 	void IntiSerialCommunication();
@@ -46,4 +48,6 @@ public:
 	afx_msg void OnBnClickedBtnStartComm();
 	CButton m_btnInit;
 	afx_msg void OnBnClickedBtnSend();
+	afx_msg LRESULT OnSerialCommuincationRecv(WPARAM wParam, LPARAM lParam);
+	CString GetCurrentTimeString();
 };

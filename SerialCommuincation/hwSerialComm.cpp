@@ -104,18 +104,21 @@ void ChwSerialComm::ReadThreadFunction()
     while (m_reading)
     {
         BYTE buffer[1024];
+        memset(buffer, 0, sizeof(buffer));
         DWORD bytesRead = 0;
         if (ReadFile(m_hComm, buffer, sizeof(buffer), &bytesRead, NULL))
         {
-            // Process read data here
+            if (m_hwdHanlde != NULL && buffer)
+            {
+                ::PostMessage(m_hwdHanlde, UI_CMD_RECEIVED_SERIAL_DATA, 0, reinterpret_cast<LPARAM>(buffer));
+            }
         }
         else
         {
-            // Handle read error
         }
 
         std::unique_lock<std::mutex> lock(m_mutex);
-        m_cv.wait_for(lock, std::chrono::milliseconds(10), [this]() { return !m_reading; });
+        m_cv.wait_for(lock, std::chrono::milliseconds(10000), [this]() { return !m_reading; });
     }
 }
 
