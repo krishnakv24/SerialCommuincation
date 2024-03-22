@@ -118,7 +118,7 @@ void ChwSerialComm::ReadThreadFunction()
         }
 
         std::unique_lock<std::mutex> lock(m_mutex);
-        m_cv.wait_for(lock, std::chrono::milliseconds(10000), [this]() { return !m_reading; });
+        m_cv.wait_for(lock, std::chrono::milliseconds(2000), [this]() { return !m_reading; });
     }
 }
 

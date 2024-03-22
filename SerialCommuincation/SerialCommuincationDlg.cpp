@@ -161,7 +161,14 @@ void CSerialCommuincationDlg::OnBnClickedCancel()
 }
 void CSerialCommuincationDlg::InitUIControls()
 {
-	m_edtReceivedText.SetWindowTextW(L"Test Data");
+	m_edtReceivedText.SetWindowTextW(L"Waiting to Receive Data");
+	m_edtCommonPort.SetWindowTextW(L"COM4");
+
+	m_comboBaudrate.AddString(L"CBR_9600");
+	m_comboBaudrate.SetItemData(0, CBR_9600);
+	m_comboBaudrate.SetCurSel(0);
+	m_comboBaudrate.AddString(L"CBR_19200");
+	m_comboBaudrate.SetItemData(1, CBR_9600);
 }
 
 void CSerialCommuincationDlg::OnClose()
@@ -181,38 +188,60 @@ void CSerialCommuincationDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
 	CDialogEx::OnGetMinMaxInfo(lpMMI);
 
-	lpMMI->ptMinTrackSize.x = lpMMI->ptMaxTrackSize.x = 502;
+	lpMMI->ptMinTrackSize.x = lpMMI->ptMaxTrackSize.x = 525;
 	lpMMI->ptMinTrackSize.y = lpMMI->ptMaxTrackSize.y = 275;
 }
 
 void CSerialCommuincationDlg::OnBnClickedBtnStartComm()
 {
-	IntiSerialCommunication();
+	if (!m_bConnected)
+	{
+		IntiSerialCommunication();
+	}
+	else
+	{
+		AfxMessageBox(_T("All Ready Connected!"), MB_OK | MB_ICONQUESTION);
+	}
 }
 
 void CSerialCommuincationDlg::IntiSerialCommunication()
 {
 	if (!m_bConnected)
 	{
-		CString strPortName = _T("COM4"); 
-		DWORD dwBaudRate = CBR_9600; 
+		CString strPortNumber = L"";
+		m_edtCommonPort.GetWindowTextW(strPortNumber);
+		auto ItemIndex = m_comboBaudrate.GetCurSel();
+		DWORD baurdRate = m_comboBaudrate.GetItemData(ItemIndex);
+
 		BYTE byteSize = 8; 
 		BYTE parity = NOPARITY;
 		BYTE stopBits = ONESTOPBIT; 
 
-		if (m_serialComm.Open(strPortName, dwBaudRate, byteSize, parity, stopBits))
+		if (m_serialComm.Open(strPortNumber, baurdRate, byteSize, parity, stopBits))
 		{
 			m_serialComm.StartReading();
 			m_bConnected = TRUE;
 		}
 		else
 		{
+			AfxMessageBox(_T("Failed to Connect"), MB_OK | MB_ICONQUESTION);
 		}
 	}
 }
 
 void CSerialCommuincationDlg::OnBnClickedBtnSend()
 {
+	if (m_bConnected)
+	{
+		CString strSrndData = L"";
+		m_edtSendText.GetWindowTextW(strSrndData);
+		BYTE* pData = reinterpret_cast<BYTE*>(strSrndData.GetBuffer());
+		m_serialComm.Write(pData, strSrndData.GetLength());
+	}
+	else
+	{
+		AfxMessageBox(_T("Not Yet Connected"), MB_OK | MB_ICONQUESTION);
+	}
 }
 
 LRESULT CSerialCommuincationDlg::OnSerialCommuincationRecv(WPARAM wParam, LPARAM lParam)
