@@ -50,14 +50,27 @@ CSerialCommuincationDlg::CSerialCommuincationDlg(CWnd* pParent /*=nullptr*/)
 void CSerialCommuincationDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_ST_COMPORT, m_stComnPrtTitle);
+	DDX_Control(pDX, IDC_ST_BD_RATE, m_stBaudRateTitle);
+	DDX_Control(pDX, IDC_EDIT_COM_PORT, m_edtCommonPort);
+	DDX_Control(pDX, IDC_COMBO1, m_comboBaudrate);
+	DDX_Control(pDX, IDC_EDIT2, m_edtSendText);
+	DDX_Control(pDX, IDC_BTN_START_COMM2, m_btnSend);
+	DDX_Control(pDX, IDC_ST_RECEIVED, m_stReceivedText);
+	DDX_Control(pDX, IDC_EDIT_RECEIVED, m_edtReceivedText);
+	DDX_Control(pDX, IDC_BTN_START_COMM, m_btnInit);
 }
 
 BEGIN_MESSAGE_MAP(CSerialCommuincationDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_WM_GETMINMAXINFO()
+	ON_WM_CLOSE()
 	ON_BN_CLICKED(IDOK, &CSerialCommuincationDlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CSerialCommuincationDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_BTN_START_COMM, &CSerialCommuincationDlg::OnBnClickedBtnStartComm)
+	ON_BN_CLICKED(IDC_BTN_SEND, &CSerialCommuincationDlg::OnBnClickedBtnSend)
 END_MESSAGE_MAP()
 
 
@@ -68,7 +81,7 @@ BOOL CSerialCommuincationDlg::OnInitDialog()
 	SetWindowText(L"Serial Communication");
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
-	IntiSerialCommunication();
+	
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
 	if (pSysMenu != nullptr)
@@ -141,27 +154,56 @@ void CSerialCommuincationDlg::OnBnClickedOk()
 
 void CSerialCommuincationDlg::OnBnClickedCancel()
 {
+
+}
+
+void CSerialCommuincationDlg::OnClose()
+{
+	int result = AfxMessageBox(_T("Are you want to Close the Application?"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (result == IDOK)
+	{
+		CDialogEx::OnCancel();
+	}
+	else if (result == IDCANCEL)
+	{
+	}
+}
+
+
+void CSerialCommuincationDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+	CDialogEx::OnGetMinMaxInfo(lpMMI);
+
+	lpMMI->ptMinTrackSize.x = lpMMI->ptMaxTrackSize.x = 502;
+	lpMMI->ptMinTrackSize.y = lpMMI->ptMaxTrackSize.y = 275;
+}
+
+void CSerialCommuincationDlg::OnBnClickedBtnStartComm()
+{
+	IntiSerialCommunication();
 }
 
 void CSerialCommuincationDlg::IntiSerialCommunication()
 {
 	if (!m_bConnected)
 	{
-		CString strPortName = _T("COM1"); // Change this to the appropriate port name
-		DWORD dwBaudRate = CBR_9600; // Change this to the appropriate baud rate
-		BYTE byteSize = 8; // Change this to the appropriate data size
-		BYTE parity = NOPARITY; // Change this to the appropriate parity
-		BYTE stopBits = ONESTOPBIT; // Change this to the appropriate stop bits
+		CString strPortName = _T("COM4"); 
+		DWORD dwBaudRate = CBR_9600; 
+		BYTE byteSize = 8; 
+		BYTE parity = NOPARITY;
+		BYTE stopBits = ONESTOPBIT; 
 
 		if (m_serialComm.Open(strPortName, dwBaudRate, byteSize, parity, stopBits))
 		{
 			m_serialComm.StartReading();
 			m_bConnected = TRUE;
-			// Connection successful, do additional setup if needed
 		}
 		else
 		{
-			// Connection failed, handle error
 		}
 	}
+}
+
+void CSerialCommuincationDlg::OnBnClickedBtnSend()
+{
 }

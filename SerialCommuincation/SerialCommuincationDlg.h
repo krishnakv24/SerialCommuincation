@@ -27,9 +27,23 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 
-	void IntiSerialCommunication();
+	void OnClose();
 
+	void IntiSerialCommunication();
+	void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 private:
 	ChwSerialComm m_serialComm;
 	BOOL m_bConnected;
+public:
+	CStatic m_stComnPrtTitle;
+	CStatic m_stBaudRateTitle;
+	CEdit m_edtCommonPort;
+	CComboBox m_comboBaudrate;
+	CEdit m_edtSendText;
+	CButton m_btnSend;
+	CStatic m_stReceivedText;
+	CEdit m_edtReceivedText;
+	afx_msg void OnBnClickedBtnStartComm();
+	CButton m_btnInit;
+	afx_msg void OnBnClickedBtnSend();
 };
